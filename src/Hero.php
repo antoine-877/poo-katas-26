@@ -48,25 +48,26 @@ final class Hero implements Fighter
         int $maxHp = 10,
         public readonly int $strength = 2,
     ) {
-        throw new \LogicException('À implémenter');
+        $this->maxHp = $maxHp;
+        $this->hp = $maxHp;
     }
 
     /** Doit retirer $amount points de vie, sans jamais descendre sous 0. */
     public function takeDamage(int $amount): void
     {
-        throw new \LogicException('À implémenter');
+        $this->hp = max(0, $this->hp - $amount);
     }
 
     /** Doit rendre $amount points de vie, sans jamais dépasser $maxHp. */
     public function heal(int $amount): void
     {
-        throw new \LogicException('À implémenter');
+        $this->hp = min($this->maxHp, $this->hp + $amount);
     }
 
     /** Doit renvoyer true tant qu'il reste au moins 1 point de vie. */
     public function isAlive(): bool
     {
-        throw new \LogicException('À implémenter');
+        return $this->hp > 0;
     }
 
     /** Doit équiper l'arme passée en paramètre (elle remplace la précédente). Niveau 3. */
@@ -90,6 +91,6 @@ final class Hero implements Fighter
     /** Doit renvoyer "Arthur (7/10 PV)". */
     public function __toString(): string
     {
-        throw new \LogicException('À implémenter');
+        return sprintf('%s (%d/%d PV)', $this->name, $this->hp, $this->maxHp);
     }
 }

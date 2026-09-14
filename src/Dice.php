@@ -14,24 +14,23 @@ class Dice
      */
     public function __construct(
         public readonly int $sides,
-    ) {
-    }
+    ) {}
 
     /** Fabrique statique : doit renvoyer un dé à 6 faces. */
     public static function d6(): self
     {
-        throw new \LogicException('À implémenter');
+        return new self(6);
     }
 
     /** Fabrique statique : doit renvoyer un dé à 20 faces. */
     public static function d20(): self
     {
-        throw new \LogicException('À implémenter');
+        return new self(20);
     }
 
     /** Doit renvoyer un entier tiré au hasard entre 1 et $sides inclus. */
     public function roll(): int
     {
-        throw new \LogicException('À implémenter');
+        return rand(1, $this->sides);
     }
 }
