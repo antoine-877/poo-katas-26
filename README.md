@@ -1,3 +1,5 @@
+[![Tests](https://github.com/antoine-877/poo-katas-26/actions/workflows/tests.yml/badge.svg)](https://github.com/antoine-877/poo-katas-26/actions/workflows/tests.yml)
+
 # Les katas du Donjon (poo-katas-26)
 
 Les exercices du bloc POO de 5XCOS. **Un groupe de tests = un chapitre.** Vous ne
@@ -10,22 +12,22 @@ Les tests sont déjà écrits. **Ils sont l'énoncé.** Un test rouge vous dit
 exactement ce qu'on attend.
 
 Il faut **PHP 8.4 ou plus** : le chapitre Encapsulation s'appuie sur
-`private(set)` et sur les *property hooks*, qui n'existent pas avant.
+`private(set)` et sur les _property hooks_, qui n'existent pas avant.
 
 ## Les groupes, dans l'ordre
 
-| Groupe | Chapitre | Ce que vous écrivez | Notions |
-|---|---|---|---|
-| `niveau-1` | 1 — Objets et classes | `Dice`, `Hero` | classe, `new`, `$this`, constructeur avec promotion, `readonly`, `public private(set)`, `__toString()`, méthode `static` |
-| `encapsulation` | 3 — Encapsulation | validation dans les constructeurs de `Dice` et `Hero`, hook `set` sur `Hero::$hp`, propriété virtuelle `Hero::$isFullHealth` | invariant, `InvalidArgumentException`, visibilité asymétrique, hooks `get` et `set` |
-| `niveau-2` | 5 — Relations entre objets | `Item`, `Inventory`, `Hero::$inventory` | propriété typée par une classe, tableau d'objets, composition (le sac est créé dans le constructeur du héros) |
-| `niveau-3` | 6 — Héritage et polymorphisme | `Weapon`, `Potion`, `Monster`, `Goblin`, `Dragon`, `InventoryFullException`, `Hero::equip()`, `Hero::drink()` | `extends`, `abstract`, `parent::__construct()`, redéfinition, `?Weapon`, exceptions personnalisées |
-| `niveau-4` | 7 — Contrats | `Rarity`, `Fighter`, **extraire le trait `HasHealth`** (déplacer `$hp`, `$maxHp`, `$isFullHealth`, `takeDamage()`, `heal()`, `isAlive()` hors de `Hero` et `Monster`), `Item implements Stringable`, `Inventory implements Countable, IteratorAggregate` | enum, interface, trait, interfaces natives de PHP |
-| `niveau-5` (bonus) | 7 — Contrats | `Battle` | typer par une interface, recevoir une dépendance au lieu de la fabriquer |
+| Groupe             | Chapitre                      | Ce que vous écrivez                                                                                                                                                                                                                                      | Notions                                                                                                                  |
+| ------------------ | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `niveau-1`         | 1 — Objets et classes         | `Dice`, `Hero`                                                                                                                                                                                                                                           | classe, `new`, `$this`, constructeur avec promotion, `readonly`, `public private(set)`, `__toString()`, méthode `static` |
+| `encapsulation`    | 3 — Encapsulation             | validation dans les constructeurs de `Dice` et `Hero`, hook `set` sur `Hero::$hp`, propriété virtuelle `Hero::$isFullHealth`                                                                                                                             | invariant, `InvalidArgumentException`, visibilité asymétrique, hooks `get` et `set`                                      |
+| `niveau-2`         | 5 — Relations entre objets    | `Item`, `Inventory`, `Hero::$inventory`                                                                                                                                                                                                                  | propriété typée par une classe, tableau d'objets, composition (le sac est créé dans le constructeur du héros)            |
+| `niveau-3`         | 6 — Héritage et polymorphisme | `Weapon`, `Potion`, `Monster`, `Goblin`, `Dragon`, `InventoryFullException`, `Hero::equip()`, `Hero::drink()`                                                                                                                                            | `extends`, `abstract`, `parent::__construct()`, redéfinition, `?Weapon`, exceptions personnalisées                       |
+| `niveau-4`         | 7 — Contrats                  | `Rarity`, `Fighter`, **extraire le trait `HasHealth`** (déplacer `$hp`, `$maxHp`, `$isFullHealth`, `takeDamage()`, `heal()`, `isAlive()` hors de `Hero` et `Monster`), `Item implements Stringable`, `Inventory implements Countable, IteratorAggregate` | enum, interface, trait, interfaces natives de PHP                                                                        |
+| `niveau-5` (bonus) | 7 — Contrats                  | `Battle`                                                                                                                                                                                                                                                 | typer par une interface, recevoir une dépendance au lieu de la fabriquer                                                 |
 
 ## La procédure, pas à pas
 
-1. **Forkez** ce dépôt sur votre compte GitHub (bouton *Fork* en haut à droite).
+1. **Forkez** ce dépôt sur votre compte GitHub (bouton _Fork_ en haut à droite).
 2. **Clonez** votre fork :
    ```bash
    git clone https://github.com/VOTRE-COMPTE/poo-katas-26.git
@@ -120,17 +122,17 @@ problème que vous auriez vraiment rencontré.
 
 ## Ce qui est dans le dossier
 
-| Fichier | Rôle |
-|---|---|
-| `composer.json` | Dépendances (Pest), PHP ≥ 8.4, autoload PSR-4 `Dungeon\` → `src/`, script `composer test`. |
-| `phpunit.xml` | Configuration du lanceur de tests. |
-| `src/` | Les squelettes à compléter : c'est **le seul dossier que vous modifiez**. |
+| Fichier                                     | Rôle                                                                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `composer.json`                             | Dépendances (Pest), PHP ≥ 8.4, autoload PSR-4 `Dungeon\` → `src/`, script `composer test`.                         |
+| `phpunit.xml`                               | Configuration du lanceur de tests.                                                                                 |
+| `src/`                                      | Les squelettes à compléter : c'est **le seul dossier que vous modifiez**.                                          |
 | `tests/Niveau1Test.php` … `Niveau5Test.php` | Les énoncés des niveaux, un fichier par niveau, chaque test marqué `->group('niveau-N')`. **Ne les modifiez pas.** |
-| `tests/EncapsulationTest.php` | L'énoncé du chapitre Encapsulation, groupe `encapsulation`, à faire entre les niveaux 1 et 2. |
-| `tests/Support/SimpleItem.php` | Sous-classe concrète d'`Item` pour les tests du niveau 2. |
-| `tests/Support/FixedDice.php` | Un dé truqué qui déroule une série fixe, pour rendre le combat du niveau 5 reproductible. |
-| `tests/Pest.php` | Configuration de Pest. |
-| `.github/workflows/tests.yml` | La CI : un job par groupe, six résultats visibles dans l'onglet Actions. |
+| `tests/EncapsulationTest.php`               | L'énoncé du chapitre Encapsulation, groupe `encapsulation`, à faire entre les niveaux 1 et 2.                      |
+| `tests/Support/SimpleItem.php`              | Sous-classe concrète d'`Item` pour les tests du niveau 2.                                                          |
+| `tests/Support/FixedDice.php`               | Un dé truqué qui déroule une série fixe, pour rendre le combat du niveau 5 reproductible.                          |
+| `tests/Pest.php`                            | Configuration de Pest.                                                                                             |
+| `.github/workflows/tests.yml`               | La CI : un job par groupe, six résultats visibles dans l'onglet Actions.                                           |
 
 ## Besoin d'un exemple ?
 
