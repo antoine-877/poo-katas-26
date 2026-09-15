@@ -28,7 +28,7 @@ final class Hero implements Fighter
      * hp est égal à maxHp. Chapitre Encapsulation.
      */
     public bool $isFullHealth {
-        get => throw new \LogicException('À implémenter');
+        get => $this->hp === $this->maxHp;
     }
 
     /** Le sac, créé dans le constructeur : composition. Jamais remplacé, donc readonly. Niveau 2. */
@@ -50,7 +50,14 @@ final class Hero implements Fighter
     ) {
         $this->maxHp = $maxHp;
         $this->hp = $maxHp;
+        if(trim($name)=== ""){
+            throw new \InvalidArgumentException('Un héros à un nom.');
+        }
+        if($maxHp < 1){
+            throw new \InvalidArgumentException('maxHp doit valoir au moins 1, $maxHp reçu.');
+        }
     }
+
 
     /** Doit retirer $amount points de vie, sans jamais descendre sous 0. */
     public function takeDamage(int $amount): void

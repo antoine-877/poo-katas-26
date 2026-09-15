@@ -14,7 +14,11 @@ class Dice
      */
     public function __construct(
         public readonly int $sides,
-    ) {}
+    ) {
+        if ($sides < 2) {
+            throw new \InvalidArgumentException("Un dé a au moins 2 faces, $sides reçu.");
+        }
+    }
 
     /** Fabrique statique : doit renvoyer un dé à 6 faces. */
     public static function d6(): self
