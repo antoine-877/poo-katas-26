@@ -21,7 +21,9 @@ final class Hero implements Fighter
      * Chapitre Encapsulation : ajouter un hook `set` qui borne la valeur entre 0 et $maxHp,
      * pour que takeDamage() et heal() n'aient plus à s'en soucier.
      */
-    public private(set) int $hp = 0;
+    public private(set) int $hp =0{
+        set => max(0, min($this->maxHp, $value));
+    }
 
     /**
      * Propriété virtuelle (hook `get`, rien n'est stocké) : doit valoir true quand
@@ -62,13 +64,13 @@ final class Hero implements Fighter
     /** Doit retirer $amount points de vie, sans jamais descendre sous 0. */
     public function takeDamage(int $amount): void
     {
-        $this->hp = max(0, $this->hp - $amount);
+        $this->hp -= $amount;
     }
 
     /** Doit rendre $amount points de vie, sans jamais dépasser $maxHp. */
     public function heal(int $amount): void
     {
-        $this->hp = min($this->maxHp, $this->hp + $amount);
+        $this->hp += $amount;
     }
 
     /** Doit renvoyer true tant qu'il reste au moins 1 point de vie. */

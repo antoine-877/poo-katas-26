@@ -10,8 +10,8 @@ use Dungeon\Hero;
 // virtuelle isFullHealth (hook `get`), private(set) sur ce que seule la classe écrit.
 
 test('un dé refuse moins de 2 faces', function (): void {
-    expect(fn () => new Dice(1))->toThrow(InvalidArgumentException::class);
-    expect(fn () => new Dice(0))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Dice(1))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Dice(0))->toThrow(InvalidArgumentException::class);
 })->group('encapsulation');
 
 test('un dé à 2 faces est le plus petit dé accepté', function (): void {
@@ -19,11 +19,11 @@ test('un dé à 2 faces est le plus petit dé accepté', function (): void {
 })->group('encapsulation');
 
 test('un héros sans nom est refusé', function (): void {
-    expect(fn () => new Hero('  '))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Hero('  '))->toThrow(InvalidArgumentException::class);
 })->group('encapsulation');
 
 test('un héros avec 0 point de vie maximum est refusé', function (): void {
-    expect(fn () => new Hero('Arthur', 0))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Hero('Arthur', 0))->toThrow(InvalidArgumentException::class);
 })->group('encapsulation');
 
 test('le maximum de points de vie ne s\'écrit pas de l\'extérieur', function (): void {
