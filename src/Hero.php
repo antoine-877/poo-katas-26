@@ -21,7 +21,7 @@ final class Hero implements Fighter
      * Chapitre Encapsulation : ajouter un hook `set` qui borne la valeur entre 0 et $maxHp,
      * pour que takeDamage() et heal() n'aient plus à s'en soucier.
      */
-    public private(set) int $hp =0{
+    public private(set) int $hp = 0 {
         set => max(0, min($this->maxHp, $value));
     }
 
@@ -52,10 +52,11 @@ final class Hero implements Fighter
     ) {
         $this->maxHp = $maxHp;
         $this->hp = $maxHp;
-        if(trim($name)=== ""){
+        $this->inventory = new Inventory();
+        if (trim($name) === "") {
             throw new \InvalidArgumentException('Un héros à un nom.');
         }
-        if($maxHp < 1){
+        if ($maxHp < 1) {
             throw new \InvalidArgumentException('maxHp doit valoir au moins 1, $maxHp reçu.');
         }
     }
@@ -100,6 +101,6 @@ final class Hero implements Fighter
     /** Doit renvoyer "Arthur (7/10 PV)". */
     public function __toString(): string
     {
-         return sprintf('%s (%d/%d PV)', $this->name, $this->hp, $this->maxHp);
+        return sprintf('%s (%d/%d PV)', $this->name, $this->hp, $this->maxHp);
     }
 }
