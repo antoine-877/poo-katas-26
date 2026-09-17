@@ -26,7 +26,8 @@ abstract class Monster implements Fighter
         public readonly string $name,
         int $maxHp,
     ) {
-        throw new \LogicException('À implémenter');
+        $this->maxHp = $maxHp;
+        $this->hp = $maxHp;
     }
 
     /** Doit retirer $amount points de vie, sans jamais descendre sous 0. */
