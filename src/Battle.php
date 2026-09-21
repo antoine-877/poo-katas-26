@@ -15,8 +15,7 @@ final class Battle
         private readonly Fighter $a,
         private readonly Fighter $b,
         private readonly Dice $dice,
-    ) {
-    }
+    ) {}
 
     /**
      * Doit dérouler le combat et renvoyer le vainqueur.
@@ -25,6 +24,21 @@ final class Battle
      */
     public function fight(): Fighter
     {
-        throw new \LogicException('À implémenter');
+        do {
+            // $a attaque $b
+            $damage = $this->a->attack() + $this->dice->roll();
+            $this->b->takeDamage($damage);
+
+            // Si $b est mort, on ne fait pas attaquer $b
+            if (!$this->b->isAlive()) {
+                return $this->a;
+            }
+
+            // $b attaque $a
+            $damage = $this->b->attack() + $this->dice->roll();
+            $this->a->takeDamage($damage);
+        } while ($this->a->isAlive() && $this->b->isAlive());
+
+        return $this->a->isAlive() ? $this->a : $this->b;
     }
 }
