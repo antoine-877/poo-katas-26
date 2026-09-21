@@ -28,7 +28,7 @@ final class Inventory implements \Countable, \IteratorAggregate
     public function add(Item $item): bool
     {
         if ($this->totalWeight() + $item->weight > $this->maxWeight) {
-            return false;
+            throw new InventoryFullException();
         }
 
         $this->items[] = $item;
@@ -39,13 +39,12 @@ final class Inventory implements \Countable, \IteratorAggregate
     /** Doit dire si un objet portant ce nom est dans le sac. */
     public function has(string $name): bool
     {
-        var_dump($this->items);
         foreach ($this->items as $item) {
-            //es que $name et = a item -> name si oui return true si no false
             if ($name === $item->name) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -53,7 +52,6 @@ final class Inventory implements \Countable, \IteratorAggregate
     public function remove(string $name): void
     {
         foreach ($this->items as $id => $item) {
-            //es que $name et = a item -> name si oui return true si no false
             if ($name === $item->name) {
                 unset($this->items[$id]);
                 break;
@@ -71,6 +69,7 @@ final class Inventory implements \Countable, \IteratorAggregate
     public function totalWeight(): float
     {
         $total = 0.0;
+
         foreach ($this->items as $item) {
             $total += $item->weight;
         }
@@ -85,6 +84,6 @@ final class Inventory implements \Countable, \IteratorAggregate
      */
     public function getIterator(): \Traversable
     {
-        throw new \LogicException('À implémenter');
+        return new \ArrayIterator($this->items);
     }
 }

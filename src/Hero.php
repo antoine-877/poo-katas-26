@@ -13,25 +13,7 @@ namespace Dungeon;
  */
 final class Hero implements Fighter
 {
-    /** Le maximum de points de vie. Lecture publique, écriture réservée à la classe. Niveau 1. */
-    public private(set) int $maxHp = 0;
-
-    /**
-     * Les points de vie courants. Lecture publique, écriture réservée à la classe. Niveau 1.
-     * Chapitre Encapsulation : ajouter un hook `set` qui borne la valeur entre 0 et $maxHp,
-     * pour que takeDamage() et heal() n'aient plus à s'en soucier.
-     */
-    public private(set) int $hp = 0 {
-        set => max(0, min($this->maxHp, $value));
-    }
-
-    /**
-     * Propriété virtuelle (hook `get`, rien n'est stocké) : doit valoir true quand
-     * hp est égal à maxHp. Chapitre Encapsulation.
-     */
-    public bool $isFullHealth {
-        get => $this->hp === $this->maxHp;
-    }
+   use HasHealth;
 
     /** Le sac, créé dans le constructeur : composition. Jamais remplacé, donc readonly. Niveau 2. */
     public readonly Inventory $inventory;
@@ -40,62 +22,51 @@ final class Hero implements Fighter
     public private(set) ?Weapon $weapon = null;
 
     /**
-     * Doit initialiser maxHp et hp, et créer l'inventaire du héros (niveau 2).
-     * Chapitre Encapsulation : doit d'abord refuser un nom vide
-     * (InvalidArgumentException('Un héros a un nom.')) et un maxHp inférieur à 1
-     * (InvalidArgumentException("maxHp doit valoir au moins 1, $maxHp reçu.")).
+     * Initialise maxHp et hp, et crée l'inventaire du héros.
      */
     public function __construct(
         public readonly string $name,
         int $maxHp = 10,
         public readonly int $strength = 2,
     ) {
+        if (trim($name) === "") {
+            throw new \InvalidArgumentException('Un héros a un nom.');
+        }
+
+        if ($maxHp < 1) {
+            throw new \InvalidArgumentException(
+                "maxHp doit valoir au moins 1, $maxHp reçu."
+            );
+        }
+
         $this->maxHp = $maxHp;
         $this->hp = $maxHp;
         $this->inventory = new Inventory();
-        if (trim($name) === "") {
-            throw new \InvalidArgumentException('Un héros à un nom.');
-        }
-        if ($maxHp < 1) {
-            throw new \InvalidArgumentException('maxHp doit valoir au moins 1, $maxHp reçu.');
-        }
     }
 
-
-    /** Doit retirer $amount points de vie, sans jamais descendre sous 0. */
-    public function takeDamage(int $amount): void
-    {
-        $this->hp -= $amount;
-    }
-
-    /** Doit rendre $amount points de vie, sans jamais dépasser $maxHp. */
-    public function heal(int $amount): void
-    {
-        $this->hp += $amount;
-    }
-
-    /** Doit renvoyer true tant qu'il reste au moins 1 point de vie. */
-    public function isAlive(): bool
-    {
-        return $this->hp > 0;
-    }
 
     /** Doit équiper l'arme passée en paramètre (elle remplace la précédente). Niveau 3. */
     public function equip(Weapon $weapon): void
     {
-        throw new \LogicException('À implémenter');
+        $this->weapon = $weapon;
     }
 
     /** Doit soigner le héros du montant de la potion, puis retirer la potion de l'inventaire. Niveau 3. */
     public function drink(Potion $potion): void
     {
-        throw new \LogicException('À implémenter');
+        $this->heal($potion->healing);
+
+        $this->inventory->remove($potion->name);
     }
 
     /** Doit renvoyer strength, plus les dégâts de l'arme équipée s'il y en a une. */
     public function attack(): int
     {
-        throw new \LogicException('À implémenter');
+        if ($this->weapon === null) {
+            return $this->strength;
+        }
+
+        return $this->strength + $this->weapon->damage;
     }
 
     /** Doit renvoyer "Arthur (7/10 PV)". */
